@@ -1,0 +1,19 @@
+.container {
+  text-align: center;
+  margin: 0 auto;
+}
+
+.from_input {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.input_box {
+  margin-top: 20px;
+  height: 3em;
+}
+
+.box_button {
+  align-self: flex-end;
+}

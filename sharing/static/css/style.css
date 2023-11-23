@@ -1,0 +1,18 @@
+:root {
+  --cc-font: black;
+  --fs-med: 2em;
+  --ff-main: "Times New Roman", Times, serif;
+}
+
+html,
+body {
+  font-family: var(--ff-main);
+  color: var(--cc-font);
+}
+
+.container.centre_middle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}

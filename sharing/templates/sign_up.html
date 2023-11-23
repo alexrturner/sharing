@@ -1,0 +1,30 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/login_register.css' %}">
+    <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+</head>
+
+<body>
+    <div class="container centre_middle registration">
+        <form method="post">
+            {% csrf_token %}
+            <div class="from_input">
+                <input class="input_box" type="text" name="username" placeholder="username" value="">
+                <input class="input_box" type="password" name="password" placeholder="password" value="">
+                <input class="input_box" type="email" name="email" placeholder="email" value="">
+                <span style="color: red">{{ error }}</span>
+                <input class="box_button" type="submit" value="Register">
+            </div>
+    </div>
+
+    </form>
+</body>
+
+</html>

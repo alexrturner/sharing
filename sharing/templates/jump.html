@@ -1,0 +1,36 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Jump</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/login_register.css' %}">
+    <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+</head>
+
+<body>
+    <p class="container centre-middle jump" style="font-size:20px">Registration successful. Pleasre wait <span
+            id="sp">2</span> seconds</p>
+
+    <script>
+        onload = function () {
+            setInterval(go, 1000)
+        };
+        var x = 1;
+
+        function go() {
+
+            if (x >= 0) {
+                document.getElementById("sp").innerText = x;
+            } else {
+                location.href = "/login";
+            }
+            x--;
+        }
+    </script>
+</body>
+
+</html>
