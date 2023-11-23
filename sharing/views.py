@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.shortcuts import redirect, render
 from django.views.decorators.csrf import csrf_exempt
+from django.db.models import Q
 
 from sharing.models import Message
 
@@ -19,7 +20,7 @@ def login_view(request):
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('chat_view')
+            return redirect('user_list_view')
         else:
             return render(request, 'login.html', {"error_info": "Invalid username or password"})
     else:
@@ -55,6 +56,12 @@ def signup_view(request):
 @login_required
 def chat_view(request, user_id):
     other_user = User.objects.get(id=user_id)
+    
+    # Fetch messages sent by both users
+    messages = Message.objects.filter(
+        Q(sender=request.user, receiver=other_user) | 
+        Q(sender=other_user, receiver=request.user)
+    ).order_by('timestamp')
 
     # Handle new message posting
     if request.method == 'POST':

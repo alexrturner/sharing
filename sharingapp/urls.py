@@ -26,7 +26,9 @@ urlpatterns = [
     path('login/', views.login_view, name='login_view'),
     path('logout/', views.logout_view, name='logout_view'),
     path('sign_up/', views.signup_view, name='signup_view'),
-    path('chat/', views.chat_view, name='chat_view'),
+    #path('chat/', views.chat_view, name='chat_view'),
+    path('chat/<int:user_id>/', views.chat_view, name='chat_view'),
+    path('users/', views.user_list_view, name='user_list_view'),
 ]
 
 if settings.DEBUG:
