@@ -52,13 +52,27 @@ def signup_view(request):
 
     return render(request, 'sign_up.html')
 
-def chat_view(request):
-    # Ensure user is authenticated
-    if not request.user.is_authenticated:
-        return render(request, 'login.html')
+@login_required
+def chat_view(request, user_id):
+    other_user = User.objects.get(id=user_id)
+
+    # Handle new message posting
+    if request.method == 'POST':
+        text = request.POST.get('message', '')
+        audio = request.FILES.get('audio', None)
+        Message.objects.create(
+            sender=request.user,
+            receiver=other_user,
+            text=text,
+            audio=audio
+        )
+        return redirect('chat_view', user_id=user_id)
+
     # Fetch messages and render chat
-    messages = Message.objects.all()  # Modify as needed
-    return render(request, 'chat.html', {'messages': messages})
+    messages = Message.objects.filter(sender=request.user, receiver=other_user)
+
+    return render(request, 'chat.html', {'other_user': other_user, 'messages': messages})
+
 
 def jump_view(request):
     return render(request, "jump.html")
@@ -73,3 +87,10 @@ def main(request):
     user_plan = Userplan.objects.filter(name=request.user.username).values()
     return render(request, "main.html", {"user_plan": user_plan})
 
+
+def user_list_view(request):
+    if not request.user.is_authenticated:
+        return redirect('login_view')
+
+    users = User.objects.exclude(id=request.user.id)  # Exclude current user
+    return render(request, 'user_list.html', {'users': users})
