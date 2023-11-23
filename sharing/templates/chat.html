@@ -4,18 +4,35 @@
 <html>
 
 <head>
-    <title>Chat</title>
+    <title>Sharing</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 
 <body>
-    <div>chat</div>
-    <h1>Chat with {{ other_user.username }}</h1>
+
+    <h1>History with {{ other_user.username }}</h1>
+
+    <!-- History -->
+    <div id="chat-history">
+        {% for message in messages %}
+        <div class="message">
+            <strong>{{ message.sender.username }}:</strong>
+            {% if message.text %}
+            <p>{{ message.text }}</p>
+            {% endif %}
+            {% if message.audio %}
+            <audio controls src="{{ message.audio.url }}"></audio>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Sharing -->
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <textarea name="message" placeholder="Type your message here..."></textarea>
         <input type="file" name="audio" accept="audio/*">
-        <button type="submit">Send</button>
+        <button type="submit">Share</button>
     </form>
 
 </body>

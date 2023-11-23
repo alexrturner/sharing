@@ -23,16 +23,10 @@ from sharing import views
 
 urlpatterns = [
     path('', views.index, name='index'),
-    #path('sharing/', include('sharing.urls')),
     path('login/', views.login_view, name='login_view'),
     path('logout/', views.logout_view, name='logout_view'),
     path('sign_up/', views.signup_view, name='signup_view'),
     path('chat/', views.chat_view, name='chat_view'),
-    # path('main/', views.main),
-    # path('jump/', views.jump),
-    # path('plan/', views.plan),
-    # path('hardware/', views.Hardware_View.as_view()),
-    # path('send_email/', views.send_email)
 ]
 
 if settings.DEBUG:
