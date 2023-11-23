@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sharing</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+    <style>
+
+    </style>
+</head>
+
+<body>
+
+    <header class="header_line">
+        <div class="left">
+            <div class="header">
+                {% if request.user.is_authenticated %}
+                <span>{{ request.user.username }},</span>
+
+
+                {% endif %}
+                <span>sharing</span>
+                <div class="right">
+                    <a href="/login">Login</a>
+                    <a href="/sign_up">Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    {% block content %}
+    {% endblock content %}
+</body>
+
+</html>

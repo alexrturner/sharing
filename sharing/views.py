@@ -2,15 +2,27 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db import IntegrityError
+from django.db.models import Q
 from django.shortcuts import redirect, render
 from django.views.decorators.csrf import csrf_exempt
-from django.db.models import Q
 
 from sharing.models import Message
 
 
 def index(request):
-    return render(request, "index.html")
+    # if not request.user.is_authenticated:
+    #     return redirect('login_view')
+
+    all_messages = Message.objects.all().order_by('timestamp')
+    
+    chat_pairs = set()
+    for message in all_messages:
+        # Create a tuple of the sender and receiver usernames in a sorted order
+        pair = tuple(sorted([message.sender.username, message.receiver.username]))
+        chat_pairs.add(pair)
+
+    return render(request, "index.html", {"chat_pairs": chat_pairs})
+
 
 
 def login_view(request):
@@ -75,9 +87,7 @@ def chat_view(request, user_id):
         )
         return redirect('chat_view', user_id=user_id)
 
-    # Fetch messages and render chat
-    messages = Message.objects.filter(sender=request.user, receiver=other_user)
-
+    # Render chat
     return render(request, 'chat.html', {'other_user': other_user, 'messages': messages})
 
 
@@ -101,3 +111,16 @@ def user_list_view(request):
 
     users = User.objects.exclude(id=request.user.id)  # Exclude current user
     return render(request, 'user_list.html', {'users': users})
+
+def chat_history_view(request, user1, user2):
+    # Fetch the users
+    user1 = User.objects.get(username=user1)
+    user2 = User.objects.get(username=user2)
+
+    # Fetch the chat history
+    messages = Message.objects.filter(
+        Q(sender=user1, receiver=user2) | 
+        Q(sender=user2, receiver=user1)
+    ).order_by('timestamp')
+
+    return render(request, 'chat_history.html', {'messages': messages, 'user1': user1, 'user2': user2})

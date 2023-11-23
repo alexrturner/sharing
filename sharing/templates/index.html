@@ -1,33 +1,23 @@
+{% extends "base.html" %}
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
+{% block content %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Sharing</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'css/index.css' %}">
-    <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
-    <style>
+<h1>Chats</h1>
+<ul>
 
-    </style>
-</head>
-
+    {% for pair in chat_pairs %}
+    <li>
+        <a href="{% url 'chat_history_view' pair.0 pair.1 %}">
+            {{ pair.0 }}_{{ pair.1 }}
+        </a>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock content %}
 
 <body>
-    <header class="header_line">
-        <div class="left">
-            <p>sharing</p>
-        </div>
 
-
-        <div class="right">
-            <a href="/login">Login</a>
-            <a href="/sign_up">Sign Up</a>
-        </div>
-
-    </header>
 </body>
 
 </html>

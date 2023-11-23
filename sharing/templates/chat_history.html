@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Chat History</title>
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+    <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
+    <!-- <link rel="stylesheet" href="{% static 'css/plyr-3.7.8.css' %}"> -->
+    <!-- <script src="{% static 'js/plyr.polyfill-3.7.8.js' %}"></script> -->
+    <style>
+        .plyr__title {
+            color: #fff;
+            padding: 10px;
+        }
+
+        .audio-container {
+            display: -ms-flexbox;
+            display: flex;
+            margin-bottom: 2rem;
+            border-radius: 3px;
+            border: 1px solid #e7e7e5;
+            -ms-flex-direction: column-reverse;
+            flex-direction: column-reverse;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Chat History</h1>
+    <div>
+        {% for message in messages %}
+        <p><strong>{{ message.sender.username }}:</strong> {{ message.text }}</p>
+        {% if message.audio %}
+        <!-- listening -->
+        <div class="audio-container">
+            <audio controls class="audio-player">
+                <source src="{{ message.audio.url }}" type="audio/mp3">
+                Your browser does not support the audio element.
+            </audio>
+            <div class="plyr__title">{{ message.audio.url }}</div>
+            <a href="{{ message.audio.url }}" download>Source</a>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+
+
+
+    <script>
+        // import Plyr from 'plyr';
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize all audio players on the page with Plyr
+            const players = Plyr.setup('.audio-player', {
+                controls: ['play', 'current-time', 'duration', 'mute', 'volume']
+            });
+
+
+        });
+    </script>
+</body>
+
+
+</html>

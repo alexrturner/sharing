@@ -29,6 +29,7 @@ urlpatterns = [
     #path('chat/', views.chat_view, name='chat_view'),
     path('chat/<int:user_id>/', views.chat_view, name='chat_view'),
     path('users/', views.user_list_view, name='user_list_view'),
+    path('chat_history/<str:user1>_<str:user2>/', views.chat_history_view, name='chat_history_view'),
 ]
 
 if settings.DEBUG:
