@@ -3,14 +3,14 @@
 <html>
 
 <head>
-    <title>Chat History</title>
+    <title>History</title>
     <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
     <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
     <!-- <link rel="stylesheet" href="{% static 'css/plyr-3.7.8.css' %}"> -->
     <!-- <script src="{% static 'js/plyr.polyfill-3.7.8.js' %}"></script> -->
     <style>
         .plyr__title {
-            color: #fff;
+            color: #e7e7e5;
             padding: 10px;
         }
 
@@ -23,17 +23,23 @@
             -ms-flex-direction: column-reverse;
             flex-direction: column-reverse;
         }
+
+        .together {
+            background-color: pink;
+        }
     </style>
 </head>
 
 <body>
-    <h1>Chat History</h1>
+    <h1>History</h1>
     <div>
         {% for message in messages %}
-        <p><strong>{{ message.sender.username }}:</strong> {{ message.text }}</p>
+        <div class="message {% if message.recorded_together %} together{% endif %}">
+            <p><strong>{{ message.sender.username }}:</strong> {{ message.text }}</p>
+        </div>
         {% if message.audio %}
         <!-- listening -->
-        <div class="audio-container">
+        <div class="audio-container message {% if message.recorded_together %} together{% endif %}">
             <audio controls class="audio-player">
                 <source src="{{ message.audio.url }}" type="audio/mp3">
                 Your browser does not support the audio element.

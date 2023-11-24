@@ -8,6 +8,8 @@ from django.views.decorators.csrf import csrf_exempt
 
 from sharing.models import Message
 
+# from .forms import MessageForm
+
 
 def index(request):
     # if not request.user.is_authenticated:
@@ -41,7 +43,9 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-    return render(request, 'login.html')
+    #return render(request, 'login.html')
+    return redirect('index')
+
 
 
 
@@ -79,11 +83,13 @@ def chat_view(request, user_id):
     if request.method == 'POST':
         text = request.POST.get('message', '')
         audio = request.FILES.get('audio', None)
+        recorded_together = 'together' in request.POST
         Message.objects.create(
             sender=request.user,
             receiver=other_user,
             text=text,
-            audio=audio
+            audio=audio,
+            recorded_together=recorded_together
         )
         return redirect('chat_view', user_id=user_id)
 
@@ -124,3 +130,14 @@ def chat_history_view(request, user1, user2):
     ).order_by('timestamp')
 
     return render(request, 'chat_history.html', {'messages': messages, 'user1': user1, 'user2': user2})
+
+# def message_submit_view(request):
+#     if request.method == 'POST':
+#         form = MessageForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             # Save the form and handle as required
+#             form.save()
+#             # Redirect or render as needed
+#     else:
+#         form = MessageForm()
+#     return render(request, 'template_name.html', {'form': form})

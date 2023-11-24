@@ -17,22 +17,31 @@
 
 <body>
 
+
+
+
     <header class="header_line">
+
         <div class="left">
-            <div class="header">
-                {% if request.user.is_authenticated %}
-                <span>{{ request.user.username }},</span>
-
-
-                {% endif %}
-                <span>sharing</span>
-                <div class="right">
-                    <a href="/login">Login</a>
-                    <a href="/sign_up">Sign Up</a>
-                </div>
-            </div>
+            {% if request.user.is_authenticated %}
+            <span>{{ request.user.username }},</span>
+            {% endif %}
+            <span>sharing</span>
         </div>
+
+        <nav class="right">
+            <ul>
+                {% if request.user.is_authenticated %}
+                <li><a href="{% url 'user_list_view' %}">Users</a></li>
+                <li><a href="{% url 'logout_view' %}">Logout</a></li>
+                {% else %}
+                <li><a href="{% url 'login_view' %}">Login</a></li>
+                <li><a href="{% url 'signup_view' %}">Sign Up</a></li>
+                {% endif %}
+            </ul>
+        </nav>
     </header>
+
 
     {% block content %}
     {% endblock content %}

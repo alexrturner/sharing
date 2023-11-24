@@ -32,6 +32,10 @@
         {% csrf_token %}
         <textarea name="message" placeholder="Type your message here..."></textarea>
         <input type="file" name="audio" accept="audio/*">
+
+        <input type="checkbox" name="together" id="together">
+        <label for="together">Together?</label>
+
         <button type="submit">Share</button>
     </form>
 

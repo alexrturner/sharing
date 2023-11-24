@@ -9,7 +9,7 @@ header div {
   flex-basis: 100%;
 }
 
-header .right {
+header nav ul {
   text-align: end;
   display: flex;
   gap: 20px;
@@ -20,4 +20,8 @@ header .right {
   color: var(--cc-font);
   line-height: 25px;
   display: inline-block;
+}
+
+header nav ul li {
+  list-style: none;
 }
